@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import Hero from './components/Hero';
 import TextSequence from './components/TextSequence';
 import FeaturedProjects from './components/FeaturedProjects';
+import Footer from './components/Footer';
 
 export default function App() {
   useEffect(() => {
@@ -13,14 +14,17 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-black text-white">
-      {/* 1) Fullscreen 3D cover that spins as you scroll, no text overlay */}
+      {/* Centered, single-token hero with scroll-driven spin */}
       <Hero />
 
-      {/* 2) After some scroll, present the two-line message sequentially */}
+      {/* Sequential message reveal */}
       <TextSequence />
 
-      {/* 3) Teaser projects (we'll refine next) */}
+      {/* Featured projects grid */}
       <FeaturedProjects />
+
+      {/* Footer */}
+      <Footer />
     </div>
   );
 }
