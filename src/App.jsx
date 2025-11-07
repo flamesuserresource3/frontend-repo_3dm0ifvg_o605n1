@@ -1,14 +1,10 @@
 import React, { useEffect } from 'react';
 import Hero from './components/Hero';
+import TextSequence from './components/TextSequence';
 import FeaturedProjects from './components/FeaturedProjects';
-import WhatWeBuild from './components/WhatWeBuild';
-import Process from './components/Process';
-import Contact from './components/Contact';
-import Footer from './components/Footer';
 
 export default function App() {
   useEffect(() => {
-    // Smooth scrolling for internal links
     document.documentElement.style.scrollBehavior = 'smooth';
     return () => {
       document.documentElement.style.scrollBehavior = '';
@@ -17,13 +13,14 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-black text-white">
+      {/* 1) Fullscreen 3D cover that spins as you scroll, no text overlay */}
       <Hero />
+
+      {/* 2) After some scroll, present the two-line message sequentially */}
+      <TextSequence />
+
+      {/* 3) Teaser projects (we'll refine next) */}
       <FeaturedProjects />
-      <WhatWeBuild />
-      <Process />
-      {/* Services deep dive sections could be added in subsequent iteration with media-heavy assets */}
-      <Contact />
-      <Footer />
     </div>
   );
 }

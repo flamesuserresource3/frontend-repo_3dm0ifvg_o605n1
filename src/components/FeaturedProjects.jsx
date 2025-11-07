@@ -1,100 +1,61 @@
 import React, { useEffect, useRef } from 'react';
-import { Tilt } from './Tilt';
-import gsap from 'gsap';
+import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import Tilt from './Tilt';
 
 gsap.registerPlugin(ScrollTrigger);
 
 const projects = [
-  { name: 'Citadelle.city', tagline: 'RWA Tokenization', tags: ['DApp', 'Web3', 'RWA'], color: 'from-cyan-400 to-purple-500' },
-  { name: 'Fracta.city', tagline: 'Fractional Real Estate', tags: ['DApp', 'Tokenization'], color: 'from-emerald-400 to-cyan-400' },
-  { name: 'Escrutinio Electoral', tagline: 'Gov Transparency', tags: ['Government', 'Web App'], color: 'from-amber-400 to-pink-500' },
-  { name: 'Foodlabs', tagline: 'Crypto Food Delivery', tags: ['App', 'Crypto', 'Fintech'], color: 'from-red-400 to-orange-500' },
-  { name: 'Vulcanox', tagline: 'Next-Gen Software', tags: ['Software', 'Innovation'], color: 'from-indigo-400 to-fuchsia-500' },
+  {
+    title: 'DeFi Wallet OS',
+    desc: 'Hardware-grade security, zero-friction UX.',
+  },
+  {
+    title: 'Tokenized Realty',
+    desc: 'Fractional ownership with instant liquidity.',
+  },
+  {
+    title: 'AI Market Maker',
+    desc: 'Autonomous pricing and risk engines.',
+  },
 ];
 
-const ProjectCard = ({ item, idx }) => (
-  <Tilt className="w-[420px] max-w-[90vw]">
-    <div
-      className="backdrop-blur-xl bg-white/5 border border-white/10 rounded-3xl p-6 shadow-2xl shadow-cyan-500/5 hover:shadow-cyan-500/20 transition will-change-transform">
-      <div className={`h-1.5 w-24 rounded-full bg-gradient-to-r ${item.color} mb-4`} />
-      <h3 className="text-2xl font-semibold">{item.name}</h3>
-      <p className="text-white/70 mt-1">{item.tagline}</p>
-      <div className="mt-4 flex flex-wrap gap-2">
-        {item.tags.map((t) => (
-          <span key={t} className="text-xs px-2 py-1 rounded-full bg-white/10 border border-white/10">
-            {t}
-          </span>
-        ))}
-      </div>
-    </div>
-  </Tilt>
-);
-
 export default function FeaturedProjects() {
-  const containerRef = useRef(null);
+  const ref = useRef(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      const cards = gsap.utils.toArray('.fp-card');
+      const cards = gsap.utils.toArray('.proj-card');
       cards.forEach((card, i) => {
-        const speed = 0.5 + i * 0.15;
-        gsap.fromTo(
-          card,
-          { x: 200 + i * 60, y: 200 + i * 40, rotate: 8 - i * 3, opacity: 0 },
-          {
-            x: -200 + i * 30,
-            y: -80 - i * 30,
-            rotate: -8 + i * 2,
-            opacity: 1,
-            ease: 'none',
-            scrollTrigger: {
-              trigger: containerRef.current,
-              start: 'top bottom',
-              end: 'bottom top',
-              scrub: true,
-            },
-          }
-        );
-
-        // Curved arc upward
-        gsap.to(card, {
-          y: `-=${80 + i * 20}`,
-          ease: 'none',
+        gsap.from(card, {
+          opacity: 0,
+          y: 60,
+          rotateX: -8,
+          duration: 0.8,
+          ease: 'power3.out',
           scrollTrigger: {
-            trigger: containerRef.current,
-            start: 'center center',
-            end: 'bottom top',
-            scrub: true,
+            trigger: card,
+            start: 'top 80%',
           },
-        });
-
-        // Parallax speed
-        gsap.to(card, {
-          xPercent: -20 * speed,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: containerRef.current,
-            start: 'top bottom',
-            end: 'bottom top',
-            scrub: true,
-          },
+          delay: i * 0.1,
         });
       });
-    }, containerRef);
-
+    }, ref);
     return () => ctx.revert();
   }, []);
 
   return (
-    <section ref={containerRef} className="relative min-h-[120vh] w-full overflow-hidden bg-gradient-to-b from-black via-black to-[#070711] flex items-center">
-      <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_at_center,rgba(0,240,255,0.08),transparent_60%)]" />
-      <div className="container mx-auto px-6">
-        <div className="relative grid gap-10">
-          {projects.map((p, i) => (
-            <div key={p.name} className="fp-card">
-              <ProjectCard item={p} idx={i} />
-            </div>
+    <section ref={ref} className="relative w-full bg-black text-white py-24">
+      <div className="mx-auto max-w-6xl px-6">
+        <h3 className="text-2xl sm:text-4xl font-bold mb-12">Featured Projects</h3>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {projects.map((p) => (
+            <Tilt key={p.title}>
+              <div className="proj-card rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur">
+                <h4 className="text-xl font-semibold">{p.title}</h4>
+                <p className="text-white/70 mt-2">{p.desc}</p>
+              </div>
+            </Tilt>
           ))}
         </div>
       </div>

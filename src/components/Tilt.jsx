@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 
-export const Tilt = ({ children, className = '' }) => {
+export default function Tilt({ children, className = '' }) {
   const ref = useRef(null);
 
   const onMove = (e) => {
@@ -30,4 +30,4 @@ export const Tilt = ({ children, className = '' }) => {
       {children}
     </div>
   );
-};
+}
